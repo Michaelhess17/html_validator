@@ -24,7 +24,11 @@ def validate_html(html):
     # # but arbitrary text located between the html tags
     balanced = True
     results = []
-    tags = _extract_tags(html)
+    try:
+        tags = _extract_tags(html)
+    except Exception as e:
+        print(e)
+        return False
     for k, tag in enumerate(tags):
         if '/' not in tag:
             results.append(tag)
@@ -75,8 +79,17 @@ def _extract_tags(html):
                 else:
                     raise ValueError('found < without matching >')
         if lefts == rights:
-            return results
+            new_results = []
+            for tag in results:
+                tag_split = tag.split(' ')
+                if len(tag_split) > 1:
+                    new_results.append(tag_split[0] + tag_split[-1][-1])
+                else:
+                    new_results.append(tag)
+            return new_results
         else:
             raise ValueError('found < without matching >')
+    elif ('<' in html):
+        raise ValueError('found < without matching >')
     else:
         return []
