@@ -16,7 +16,16 @@ def validate_html(html):
     # then process these html tags using the balanced parentheses algorithm from the book
     # the main difference between your code and the book's code will be that you will have to keep track of not just the 3 types of parentheses,
     # but arbitrary text located between the html tags
-
+    tags = _extract_tags(html)
+    while len(tags) != 0:
+        for tag in tags:
+            match = tag[0] + '/' + tag[1:]
+            if match in tags:
+                tags.remove(match)
+                tags.remove(tag)
+            else:
+                return False
+    return True
 
 def _extract_tags(html):
     '''
@@ -29,3 +38,12 @@ def _extract_tags(html):
     >>> _extract_tags('Python <strong>rocks</strong>!')
     ['<strong>', '</strong>']
     '''
+    results = []
+    for k in range(len(html)):
+        if html[k] == '<':
+            for i in range(len(html)-k):
+                if html[k+i] == '>':
+                    results.append(html[k:k+i+1])
+                    break
+
+    return results
