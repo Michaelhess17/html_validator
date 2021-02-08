@@ -50,15 +50,23 @@ def _extract_tags(html):
     >>> _extract_tags('Python <strong>rocks</strong>!')
     ['<strong>', '</strong>']
     '''
+    if html == '':
+        return []
     results = []
+    lefts = 0
+    rights = 0
     for k in range(len(html)):
         if html[k] == '<':
+            lefts += 1
             if '>' in html[k + 1:]:
                 for i in range(len(html) - k):
                     if html[k + i] == '>':
+                        rights += 1
                         results.append(html[k:k + i + 1])
                         break
             else:
                 return []
-
-    return results
+    if lefts == rights:
+        return results
+    else:
+        raise ValueError('found < without matching >')
