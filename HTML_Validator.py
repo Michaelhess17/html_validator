@@ -28,7 +28,7 @@ def validate_html(html):
     while len(tags) != 0:
         for tag in tags:
             match = tag[0] + '/' + tag[1:]
-            if match ==  tags:
+            if match == tags:
                 tags.remove(match)
                 tags.remove(tag)
             else:
