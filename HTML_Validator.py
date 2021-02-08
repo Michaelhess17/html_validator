@@ -26,11 +26,23 @@ def validate_html(html):
     if tags == []:
         return False
     while len(tags) != 0:
-        for tag in tags:
+        for k, tag in enumerate(tags):
             match = tag[0] + '/' + tag[1:]
-            if match == tags:
-                tags.remove(match)
-                tags.remove(tag)
+            if match in tags:
+                if match == tags[k + 1]
+                    tags.remove(match)
+                    tags.remove(tag)
+                elif (match == tags[k + 2]):
+                    return False
+                elif match == tags[k + 3]:
+                    if tags[k + 1][0] + '/' + \
+                            tags[k + 1][1:] == tags[k + 2]:
+                        tags.remove(match)
+                        tags.remove(tag)
+                        tags.remove(tags[k + 1]
+                        tags.remove(tags[k + 2]
+                else:
+                    return False
             else:
                 return False
     return True
@@ -55,18 +67,19 @@ def _extract_tags(html):
     results = []
     lefts = 0
     rights = 0
-    for k in range(len(html)):
-        if html[k] == '<':
-            lefts += 1
-            if '>' in html[k + 1:]:
-                for i in range(len(html) - k):
-                    if html[k + i] == '>':
-                        rights += 1
-                        results.append(html[k:k + i + 1])
-                        break
-            else:
-                return []
-    if lefts == rights:
+    if ('<' in html) & ('>' in html):    
+        for k in range(len(html)):
+            if html[k] == '<':
+                lefts += 1
+                if '>' in html[k + 1:]:
+                    for i in range(len(html) - k):
+                        if html[k + i] == '>':
+                            rights += 1
+                            results.append(html[k:k + i])
+                            break
+                else:
+                     raise ValueError('match=found < without matching >')
+        if lefts == rights:
         return results
     else:
-        raise ValueError('found < without matching >')
+        raise ValueError('match=found < without matching >')
