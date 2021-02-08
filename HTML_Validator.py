@@ -22,30 +22,25 @@ def validate_html(html):
     # # code will be that you will have to keep track of not
     # # just the 3 types of parentheses,
     # # but arbitrary text located between the html tags
+    balanced = True
+    results = []
     tags = _extract_tags(html)
-    if tags == []:
-        return False
-    while len(tags) != 0:
-        for k, tag in enumerate(tags):
-            match = tag[0] + '/' + tag[1:]
-            if match in tags:
-                if match == tags[k + 1]:
-                    tags.remove(match)
-                    tags.remove(tag)
-                elif (match == tags[k + 2]):
-                    return False
-                elif match == tags[k + 3]:
-                    if tags[k + 1][0] + '/' \
-                            + tags[k + 1][1:] == tags[k + 2]:
-                        tags.remove(match)
-                        tags.remove(tag)
-                        tags.remove(tags[k + 1])
-                        tags.remove(tags[k + 2])
-                else:
-                    return False
+    for k, tag in enumerate(tags):
+        if '/' not in tag:
+            results.append(tag)
+        else:
+            if results == []:
+                balanced = False
             else:
-                return False
-    return True
+                last_tag = results.pop()
+                if tag[2:] != last_tag[1:]:
+                    print('tag', tag)
+                    print('last_tag', last_tag)
+                    balanced = False
+    if (results == []) & balanced:
+        return True
+    else:
+        return False
 
 
 def _extract_tags(html):
@@ -78,10 +73,10 @@ def _extract_tags(html):
                             results.append(html[k:k + i + 1])
                             break
                 else:
-                    raise ValueError('match=found < without matching >')
+                    raise ValueError('found < without matching >')
         if lefts == rights:
             return results
         else:
-            raise ValueError('match=found < without matching >')
+            raise ValueError('found < without matching >')
     else:
-        raise ValueError('match=found < without matching >')
+        return []
