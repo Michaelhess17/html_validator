@@ -23,7 +23,7 @@ def validate_html(html):
     # # just the 3 types of parentheses,
     # # but arbitrary text located between the html tags
     tags = _extract_tags(html)
-    if tage == []:
+    if tags == []:
         return False
     while len(tags) != 0:
         for tag in tags:
