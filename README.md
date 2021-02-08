@@ -14,7 +14,7 @@ You will implement an extended version of the balanced parentheses algorithm tha
 
 ## Background
 
-HTML is how webpages format their content.
+HTML is how webpages format their content. 
 A simple example is the following code:
 
 ```
